@@ -1,0 +1,63 @@
+/*
+* Please check this configuration and use it in the file config.json as you want
+*/
+
+{
+    /*
+    * Execution modes:
+    * 0 -> Send only one message at specified hour.
+    * 1 -> Send messages from specified list at given intervals.
+    * 2 -> Send photos taken with primary webcam in the device to the target.
+    */
+    "execution_mode" : 0,
+
+    /*
+    * Targets can be as many as you want, contacts or groups.
+    * See the examples below for configurations.
+    */
+    "targets" : [
+        /* Example of group. */
+        {
+            "group_id" : ""
+        },
+        /* Example of contact. */
+        {
+            "phone_number" : ""
+        }
+    ],
+
+    /* 
+    * This configuration is only read if the execution_mode is set to 0.
+    */
+    "message" : {
+        "path" : "",            /* Path to the file containing the message, useful if the message should be variable as the output of another program. */
+        "message" : "",         /* Fallback if the file path is not present or it's empty, useful if your message should be constant. */
+        "date" : ""             /* Avaliable formats are YYYY-mm-dd_HH-ii and HH-ii where the day is assumed as today. */
+    },
+
+    /* 
+    * This configuration is only read if the execution_mode is set to 1.
+    */
+    "messages" : {
+        "path" : "url",         /* Path to the file containing the messages. */
+        "separator" : "\n",     /* Separator between different messages in the file. */
+        "random" : false,       /* If the program should choose randomly the message sent every time. */
+        "time" : {
+            "interval" : "10h", /* The interval between two messages sent, it can be measured in hours or in seconds (e.g 10h, 36000s). */
+            "times" : 0,        /* How many times a message should be sent. If this counter does not match with the number of messages, the list will be read from beginning. */
+            "start" : ""        /* The moment when the first message should be sent. If not specified or invalid, it will be the moment the program starts. */
+        }
+    },
+
+    /*
+    * This configuration is only read if the execution_mode is set to 2.
+    */
+    "webcam" : {
+        "path" : "",            /* Path where the snaps will be saved, if no specified or incorrect, the path will be {executionDirectory}/Images. */
+        "time" : {
+            "interval" : "1h",  /* The interval between two snaps taken and sent, it can be measured in hours or in seconds (e.g 10h, 36000s). */
+            "times" : 0,        /* How many times a snap should be taken and sent. */
+            "start" : ""        /* The moment when the first image should be sent. If not specified or invalid, it will be the moment the program starts. */
+        }       
+    }
+}
