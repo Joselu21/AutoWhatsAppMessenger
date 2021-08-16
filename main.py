@@ -72,38 +72,45 @@ def ExecutionMode_1(targets: list, messages: list) -> None:
     except Exception as e:
         print(e)
     
-def ExecutionMode_2(targets: list, webcam_config: list) -> None:
+def ExecutionMode_2(targets: list, snaps_config: list) -> None:
     
-    if "path" not in webcam_config or webcam_config['path'] == "":
+    if "path" not in snaps_config or snaps_config['path'] == "":
         path = "Images"
     else:
-        path = webcam_config['path']
+        path = snaps_config['path']
 
-    if "time" not in webcam_config or "interval" not in webcam_config['time']:
+    if "time" not in snaps_config or "interval" not in snaps_config['time']:
         raise AttributeError("Attribute with time information, like interval or how many times the program should run, is not found in the configuration.")
 
-    if webcam_config['time']['times'] <= 0:
+    if snaps_config['time']['times'] <= 0:
         raise ValueError("The attribute times, that represents how many times the program should run, must be at least 1")
 
     try:
 
-        interval = webcam_config['time']['interval']
-        times = webcam_config['time']['times']
+        interval = snaps_config['time']['interval']
+        times = snaps_config['time']['times']
         interval_in_seconds = int(Utils.MakeStringParsable(interval)) if interval.count('h') == 0 else int(Utils.MakeStringParsable(interval))*3600
 
         try:
-            if "start" in webcam_config['time']:
-                time_to_sleep = Utils.CalculateSleepTime(webcam_config['time']['start'])
+            if "start" in snaps_config['time'] and snaps_config['time'] != "":
+                time_to_sleep = Utils.CalculateSleepTime(snaps_config['time']['start'])
         except:
             time_to_sleep = 0
 
         time.sleep(time_to_sleep)
 
         for i in range(times):
-            image = Utils.TakeSnap(path)
+            if snaps_config['type'] == 0:
+                image = Utils.TakeSnap(path)
+            else:
+                image = Utils.TakeScreenshot(path)
             Utils.WaitForInternetConnection()
+            if "caption" in snaps_config:
+                caption = snaps_config['caption'].replace("{date}",Utils.GetTimestamp())
+            else:
+                caption = ""
             start_time = time.time()
-            WhatsApp.SendImage(targets, image, f"Te amo, {image}")
+            WhatsApp.SendImage(targets, image, caption)
             time.sleep(interval_in_seconds - (time.time() - start_time))
             
     except Exception as e:
@@ -117,7 +124,7 @@ def main():
     elif config['execution_mode'] == 1:
         ExecutionMode_1(config['targets'], config['messages'])
     elif config['execution_mode'] == 2:
-        ExecutionMode_2(config['targets'], config['webcam'])
+        ExecutionMode_2(config['targets'], config['snaps'])
     else:
         Help()
     

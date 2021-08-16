@@ -1,5 +1,9 @@
 /*
 * Please check this configuration and use it in the file config.json as you want
+*
+* TIP! You can fill the config in this file and use this web to delete the coments and format correctly your json by only pasting it:
+* https://komkom.github.io/
+*
 */
 
 {
@@ -7,7 +11,7 @@
     * Execution modes:
     * 0 -> Send only one message at specified hour.
     * 1 -> Send messages from specified list at given intervals.
-    * 2 -> Send photos taken with primary webcam in the device to the target.
+    * 2 -> Send photos taken with primary webcam or screenshots to the target.
     */
     "execution_mode" : 0,
 
@@ -52,8 +56,10 @@
     /*
     * This configuration is only read if the execution_mode is set to 2.
     */
-    "webcam" : {
+    "snaps" : {
+        "type" : 0,             /* 0 -> Webcam, 1 -> Screenshot */
         "path" : "",            /* Path where the snaps will be saved, if no specified or incorrect, the path will be {executionDirectory}/Images. */
+        "caption" : "{date}",    /* The caption attached to the snap, the {date} variable specifies a timestamp */
         "time" : {
             "interval" : "1h",  /* The interval between two snaps taken and sent, it can be measured in hours or in seconds (e.g 10h, 36000s). */
             "times" : 0,        /* How many times a snap should be taken and sent. */

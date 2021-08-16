@@ -1,0 +1,33 @@
+{
+    "execution_mode": 2,
+    "targets": [
+       {
+          "phone_number": "+34"
+       }
+    ],
+    "message": {
+       "path": "",
+       "message": "",
+       "date": ""
+    },
+    "messages": {
+       "path": "url",
+       "separator": "\n",
+       "random": false,
+       "time": {
+          "interval": "10h",
+          "times": 0,
+          "start": ""
+       }
+    },
+    "snaps": {
+       "type": 1,
+       "path": "",
+       "caption": "{date}",
+       "time": {
+          "interval": "1h",
+          "times": 2,
+          "start": ""
+       }
+    }
+ }
